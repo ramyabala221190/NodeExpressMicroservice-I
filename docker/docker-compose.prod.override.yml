@@ -1,0 +1,49 @@
+services:    
+    cart-node-1:
+      env_file: 
+        - prod.env
+      environment:
+       - APP_HTTP_PORT=9095
+      ports: 
+        - 9095:9095
+      volumes:
+         - C:/Users/User/certificates/self-signed-custom-ca/rootCA.crt:/var/lib/certs/rootCA.crt
+         - C:/Users/User/certificates/self-signed-custom-ca/cart.key:/var/lib/certs/cart.key
+         - C:/Users/User/certificates/self-signed-custom-ca/cart.crt:/var/lib/certs/cart.crt
+      networks:
+       - mynetwork-prod
+    
+    cart-node-2:
+     env_file: 
+        - prod.env
+     environment:
+       - APP_HTTP_PORT=9096
+     volumes:
+         - C:/Users/User/certificates/self-signed-custom-ca/rootCA.crt:/var/lib/certs/rootCA.crt
+         - C:/Users/User/certificates/self-signed-custom-ca/cart.key:/var/lib/certs/cart.key
+         - C:/Users/User/certificates/self-signed-custom-ca/cart.crt:/var/lib/certs/cart.crt
+     ports: 
+       - 9096:9096
+     networks:
+       - mynetwork-prod
+
+    cart-node-3:
+     env_file: 
+        - prod.env
+     environment:
+       - APP_HTTP_PORT=9097
+     volumes:
+         - C:/Users/User/certificates/self-signed-custom-ca/rootCA.crt:/var/lib/certs/rootCA.crt
+         - C:/Users/User/certificates/self-signed-custom-ca/cart.key:/var/lib/certs/cart.key
+         - C:/Users/User/certificates/self-signed-custom-ca/cart.crt:/var/lib/certs/cart.crt     
+     ports: 
+        - 9097:9097
+     networks:
+       - mynetwork-prod
+    
+    cart-db:
+      ports:
+         - 27019:27017
+      networks:
+       - mynetwork-prod
+      
