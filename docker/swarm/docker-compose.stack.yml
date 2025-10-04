@@ -1,0 +1,55 @@
+services:
+    cart-node-1:
+       deploy:
+        replicas: 3
+        placement:
+          constraints: [node.labels.role == cart-microsvcs]
+       volumes:
+       - logs-volume:/var/log/cartmicrosvcs
+     
+       env_file: 
+        - ../environments/common.env
+       image: dockerenthusiast1992/cart-node-express
+       depends_on:
+          - cart-db
+    
+
+    cart-db:
+      deploy:
+        placement:
+          constraints: [node.labels.role == cart-microsvcs]
+      image: mongo:latest
+      restart: always
+      volumes:
+         - mongo-data:/data/db
+
+   #  filebeat:
+   #    restart: always
+   #    build:
+   #      context: ../
+   #      dockerfile: filebeat/Dockerfile
+   #    environment:
+   #       - strict.perms=false
+   #    volumes:
+   #       - logs-volume:/var/log/cartmicrosvcs/:ro
+   #    networks:
+   #       - elk-network
+
+networks:
+   shared-swarm-net-dev:
+      external: true
+   shared-swarm-net-prod:
+      external: true
+   # elk-network:
+   #    name: elk-network
+   #    external: true
+
+
+
+volumes:
+  mongo-data:
+  logs-volume:
+
+  # In this example, mongo-data is a named volume that ensures all data written 
+  # by the MongoDB container to /data/db (MongoDB's default data directory) is saved persistently 
+  # on the host system, even if the mongodb container is removed or recreated.

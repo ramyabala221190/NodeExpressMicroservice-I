@@ -3,8 +3,8 @@ services:
      volumes:
        - logs-volume:/var/log/cartmicrosvcs
      env_file: 
-        - common.env
-     image: cart-node-express
+        - environments/common.env
+     image: dockerenthusiast1992/cart-node-express
      restart: always
      depends_on:
           - cart-db
@@ -15,10 +15,14 @@ services:
     cart-node-2:
       extends:
         service: cart-node-1
+      env_file: 
+        - environments/common.env
  
     cart-node-3:
-       extends:
+      extends:
         service: cart-node-1
+      env_file: 
+        - environments/common.env
     
 
     cart-db:
