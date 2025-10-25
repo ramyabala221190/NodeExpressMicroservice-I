@@ -21,7 +21,7 @@ services:
     cart-node-3:
       extends:
         service: cart-node-1
-      env_file: 
+      env_file:
         - environments/common.env
     
 
@@ -32,6 +32,7 @@ services:
          - mongo-data:/data/db
 
     filebeat:
+      image: dockerenthusiast1992/cartmicrosvcs-filebeat
       restart: always
       build:
         context: ../

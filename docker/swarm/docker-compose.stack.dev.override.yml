@@ -1,9 +1,9 @@
 services:    
-    cart-node-1:
+    cart-node:
       env_file: 
         - ../environments/dev.env
       ports: 
-        - 9091
+        - 9091:9091
       networks:
        - shared-swarm-net-dev
   
@@ -13,3 +13,8 @@ services:
          - 27018:27017
       networks:
        - shared-swarm-net-dev
+
+    
+    filebeat:
+      networks:
+         - shared-swarm-net-dev

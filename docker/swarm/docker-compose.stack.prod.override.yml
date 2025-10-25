@@ -3,7 +3,7 @@ services:
       env_file: 
         - ../environments/prod.env
       ports: 
-        - 9095
+        - 9095:9095
       volumes:
          - C:/Users/User/certificates/self-signed-custom-ca/rootCA.crt:/var/lib/certs/rootCA.crt
          - C:/Users/User/certificates/self-signed-custom-ca/cart.key:/var/lib/certs/cart.key
@@ -16,4 +16,8 @@ services:
          - 27019:27017
       networks:
        - shared-swarm-net-prod
+    
+    filebeat:
+      networks:
+         - shared-swarm-net-prod
       

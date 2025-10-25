@@ -1,50 +1,46 @@
 services:
-    cart-node-1:
+    cart-node:
        deploy:
         replicas: 3
+        restart_policy:
+          condition: on-failure
         placement:
-          constraints: [node.labels.role == cart-microsvcs]
+          constraints: [node.labels.role == worker1]
        volumes:
        - logs-volume:/var/log/cartmicrosvcs
-     
        env_file: 
         - ../environments/common.env
        image: dockerenthusiast1992/cart-node-express
-       depends_on:
-          - cart-db
     
 
     cart-db:
       deploy:
+        restart_policy:
+          condition: on-failure
         placement:
-          constraints: [node.labels.role == cart-microsvcs]
+          constraints: [node.labels.role == worker1]
       image: mongo:latest
-      restart: always
       volumes:
          - mongo-data:/data/db
 
-   #  filebeat:
-   #    restart: always
-   #    build:
-   #      context: ../
-   #      dockerfile: filebeat/Dockerfile
-   #    environment:
-   #       - strict.perms=false
-   #    volumes:
-   #       - logs-volume:/var/log/cartmicrosvcs/:ro
-   #    networks:
-   #       - elk-network
+    filebeat:
+      image: dockerenthusiast1992/cartmicrosvcs-filebeat
+      deploy:
+        restart_policy:
+          condition: on-failure
+        placement:
+          constraints: [node.labels.role == worker1]
+      environment:
+         - strict.perms=false
+      volumes:
+         - logs-volume:/var/log/cartmicrosvcs/:ro
 
 networks:
    shared-swarm-net-dev:
       external: true
    shared-swarm-net-prod:
       external: true
-   # elk-network:
-   #    name: elk-network
-   #    external: true
-
-
+  
 
 volumes:
   mongo-data:
