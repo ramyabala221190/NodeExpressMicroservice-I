@@ -21,7 +21,7 @@ jobs:
             id: get_time
             run: |
               echo "current_time=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-              echo "${{ github.run_id }}" >> $TAG
+              echo "workflow_run_id=${{ github.run_id }}" >> $TAG
               echo "current directory before changing"
               pwd
               echo "Listing contents of directory"
