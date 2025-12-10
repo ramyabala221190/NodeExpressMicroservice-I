@@ -4,7 +4,7 @@ services:
        - logs-volume:/var/log/cartmicrosvcs
      env_file: 
         - environments/common.env
-     image: dockerenthusiast1992/cart-node-express
+     image: dockerenthusiast1992/cart-node-express:${TAG}
      restart: always
      depends_on:
           - cart-db
@@ -32,7 +32,7 @@ services:
          - mongo-data:/data/db
 
     filebeat:
-      image: dockerenthusiast1992/cartmicrosvcs-filebeat
+      image: dockerenthusiast1992/cartmicrosvcs-filebeat:${TAG}
       restart: always
       build:
         context: ../

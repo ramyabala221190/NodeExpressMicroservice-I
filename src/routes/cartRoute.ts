@@ -1,25 +1,22 @@
 import express from "express";
-import { createCartController, deleteCartController, getCartDetailController, getCartsController, 
-    sendMessageToProductMicroservice, 
-    updateCartController, welcomeCartController } from "../controllers/cartController";
+import cartController from "../controllers/cartController";
 
 const cartRouter= express.Router();
 
-
 cartRouter.route('/')
-.get(welcomeCartController);
+.get(cartController.welcomeCartController);
 
 cartRouter.route('/products')
-.get(sendMessageToProductMicroservice);
+.get(cartController.sendMessageToProductMicroservice);
 
 cartRouter.route('/carts')
-.get(getCartsController)
-.post(createCartController);
+.get(cartController.getCartsController)
+.post(cartController.createCartController);
 
 cartRouter.route('/carts/:id')
-.get(getCartDetailController)
-.delete(deleteCartController)
-.put(updateCartController);
+.get(cartController.getCartDetailController)
+.delete(cartController.deleteCartController)
+.put(cartController.updateCartController);
 
 
 export default cartRouter;

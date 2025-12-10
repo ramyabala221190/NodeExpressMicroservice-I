@@ -1,0 +1,49 @@
+name: Build and Deploy the Cart Microservice
+
+# workflow_dispatch ensures we have manual trigger of workflow and we can provide environment details as well
+on: 
+ workflow_dispatch:
+   inputs:
+     environment:
+        description: Specify the environment(dev or prod)
+        required: true
+        default: 'dev'
+
+jobs:
+  build-and-deploy:
+       runs-on: ubuntu-latest
+
+       steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4             
+
+          - name: Get current timestamp to be used in the tag
+            id: get_time
+            run: |
+              echo "current_time=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+              echo "${{ github.run_id }}" >> $TAG
+              echo "current directory before changing"
+              pwd
+              echo "Listing contents of directory"
+              ls -la
+          
+          - name: Login to DockerHub
+            uses: docker/login-action@v3
+            with:
+              username: ${{vars.DOCKERHUB_USERNAME}}
+              password: ${{secrets.DOCKERHUB_PASSWORD}}
+              # added the dockerhub username as repo variable and password as repo secret
+
+
+          - name: Build Docker image
+            uses: docker/build-push-action@v5
+            with:
+              push: true  # so that image is pushed to Dockerhub as well
+              context: .   # this ensures the paths in the Dockerfile work as expected
+              file: ./docker/Dockerfile  # this ensures the Dockerfile is located in the correct folder
+              tags: ${{vars.DOCKERHUB_USERNAME}}/${{vars.APP_NAME}}:${{TAG}}
+
+              # tags: ${{vars.DOCKERHUB_USERNAME}}/${{vars.APP_NAME}}:${{github.event.inputs.environment}}-${{ steps.get_time.outputs.current_time }}
+
+            
+
