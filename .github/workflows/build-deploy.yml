@@ -51,6 +51,8 @@ jobs:
           
           - name: Run using compose
             run: |
+              ls -al docker/
+              echo "${{github.event.inputs.environment}}"
               docker compose -p cart-microservices-${{github.event.inputs.environment}} -f docker/docker-compose.yml -f docker/docker-compose.${{github.event.inputs.environment}}.override.yml up -d --remove-orphans --no-build
               docker image prune --force
               docker compose ps
