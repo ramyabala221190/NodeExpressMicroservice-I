@@ -11,7 +11,8 @@ on:
 
 env:
  var1: This is workflow level env var accessible in the entire workflow
- tag: ${{ github.run_id }}
+ tag: ${{ github.run_id }}  # we are setting a workflow level env variable. It could also be job level
+ # So that it can be accessed in the docker compose file.
 
 jobs:
   build-and-deploy:
@@ -28,6 +29,7 @@ jobs:
 
           - name: Access env variables
             run: |
+              # env.var3 will be empty because its set at step level
               echo "${{env.var1}}" "${{env.var2}}" "${{env.var3}}" "${{env.tag}}"
                         
 
@@ -46,8 +48,12 @@ jobs:
               context: .   # this ensures the paths in the Dockerfile work as expected
               file: ./docker/Dockerfile  # this ensures the Dockerfile is located in the correct folder
               tags: ${{vars.DOCKERHUB_USERNAME}}/${{vars.APP_NAME}}:${{env.tag}}
-
-              # tags: ${{vars.DOCKERHUB_USERNAME}}/${{vars.APP_NAME}}:${{github.event.inputs.environment}}-${{ steps.get_time.outputs.current_time }}
+          
+          - name: Run using compose
+            run: |
+              docker compose -p cart-microservices-${{github.event.inputs.environment}} -f docker/docker-compose.yml -f docker/docker-compose.${{github.event.inputs.environment}}.override.yml up -d --remove-orphans --no-build
+              docker image prune --force
+              docker compose ps
 
             
 
