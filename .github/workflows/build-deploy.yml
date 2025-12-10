@@ -31,31 +31,33 @@ jobs:
             run: |
               # env.var3 will be empty because its set at step level
               echo "${{env.var1}}" "${{env.var2}}" "${{env.var3}}" "${{env.tag}}"
-                        
-
-          - name: Login to DockerHub
-            uses: docker/login-action@v3
-            with:
-              username: ${{vars.DOCKERHUB_USERNAME}}
-              password: ${{secrets.DOCKERHUB_PASSWORD}}
-              # added the dockerhub username as repo variable and password as repo secret
-
-
-          - name: Build Docker image
-            uses: docker/build-push-action@v5
-            with:
-              push: true  # so that image is pushed to Dockerhub as well
-              context: .   # this ensures the paths in the Dockerfile work as expected
-              file: ./docker/Dockerfile  # this ensures the Dockerfile is located in the correct folder
-              tags: ${{vars.DOCKERHUB_USERNAME}}/${{vars.APP_NAME}}:${{env.tag}}
-          
-          - name: Run using compose
-            run: |
               ls -al docker/
               echo "${{github.event.inputs.environment}}"
-              docker compose -p cart-microservices-${{github.event.inputs.environment}} -f docker/docker-compose.yml -f docker/docker-compose.${{github.event.inputs.environment}}.override.yml up -d --remove-orphans --no-build
-              docker image prune --force
-              docker compose ps
+                        
+
+          # - name: Login to DockerHub
+          #   uses: docker/login-action@v3
+          #   with:
+          #     username: ${{vars.DOCKERHUB_USERNAME}}
+          #     password: ${{secrets.DOCKERHUB_PASSWORD}}
+          #     # added the dockerhub username as repo variable and password as repo secret
+
+
+          # - name: Build Docker image
+          #   uses: docker/build-push-action@v5
+          #   with:
+          #     push: true  # so that image is pushed to Dockerhub as well
+          #     context: .   # this ensures the paths in the Dockerfile work as expected
+          #     file: ./docker/Dockerfile  # this ensures the Dockerfile is located in the correct folder
+          #     tags: ${{vars.DOCKERHUB_USERNAME}}/${{vars.APP_NAME}}:${{env.tag}}
+          
+          # - name: Run using compose
+          #   run: |
+          #     ls -al docker/
+          #     echo "${{github.event.inputs.environment}}"
+          #     docker compose -p cart-microservices-${{github.event.inputs.environment}} -f docker/docker-compose.yml -f docker/docker-compose.${{github.event.inputs.environment}}.override.yml up -d --remove-orphans --no-build
+          #     docker image prune --force
+          #     docker compose ps
 
             
 
