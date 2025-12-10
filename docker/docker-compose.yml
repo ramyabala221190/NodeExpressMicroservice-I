@@ -31,18 +31,18 @@ services:
       volumes:
          - mongo-data:/data/db
 
-    filebeat:
-      image: dockerenthusiast1992/cartmicrosvcs-filebeat:${tag}
-      restart: always
-      build:
-        context: ../
-        dockerfile: filebeat/Dockerfile
-      environment:
-         - strict.perms=false
-      volumes:
-         - logs-volume:/var/log/cartmicrosvcs/:ro
-      networks:
-         - elk-network
+    # filebeat:
+    #   image: dockerenthusiast1992/cartmicrosvcs-filebeat:${tag}
+    #   restart: always
+    #   build:
+    #     context: ../
+    #     dockerfile: filebeat/Dockerfile
+    #   environment:
+    #      - strict.perms=false
+    #   volumes:
+    #      - logs-volume:/var/log/cartmicrosvcs/:ro
+    #   networks:
+    #      - elk-network
 
 networks:
    mynetwork-dev:
@@ -51,9 +51,9 @@ networks:
    mynetwork-prod:
       name: cart-microsvcs-prod-network
       driver: bridge
-   elk-network:
-      name: elk-network
-      external: true
+  #  elk-network:
+  #     name: elk-network
+  #     external: true
 
 
 
