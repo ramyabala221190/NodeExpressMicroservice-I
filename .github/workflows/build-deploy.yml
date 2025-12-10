@@ -28,7 +28,7 @@ jobs:
 
           - name: Access env variables
             run: |
-              "${{env.var1}}" "${{env.var2}}" "${{env.var3}}" "${{env.tag}}"
+              echo "${{env.var1}}" "${{env.var2}}" "${{env.var3}}" "${{env.tag}}"
                         
 
           - name: Login to DockerHub
