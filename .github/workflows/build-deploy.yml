@@ -75,39 +75,45 @@ jobs:
           - name: Build Docker image
           # executed only for dev
             if: ${{ github.event.inputs.environment == 'dev' }}
-            uses: docker/build-push-action@v5
-            with:
-              push: true  # so that image is pushed to Dockerhub as well
-              context: .   # this ensures the paths in the Dockerfile work as expected
-              file: ./docker/Dockerfile  # this ensures the Dockerfile is located in the correct folder
-              tags: ${{vars.DOCKERHUB_USERNAME}}/${{vars.APP_NAME}}:${{env.tag}}
+            run: |
+              docker compose \
+              -p cart-microservices-${{ github.event.inputs.environment }} \
+              -f docker/docker-compose.yml \
+              -f docker/docker-compose.${{ github.event.inputs.environment }}.override.yml \
+              build
+            # uses: docker/build-push-action@v5
+            # with:
+            #   push: true  # so that image is pushed to Dockerhub as well
+            #   context: .   # this ensures the paths in the Dockerfile work as expected
+            #   file: ./docker/Dockerfile  # this ensures the Dockerfile is located in the correct folder
+            #   tags: ${{vars.DOCKERHUB_USERNAME}}/${{vars.APP_NAME}}:${{env.tag}}
           
           # - name: Run using compose
           # # this will create containers in the github runner and will destroy them once workflow ends. no containers are created in docker desktop
           #   run: |
           #     docker compose -p cart-microservices-${{github.event.inputs.environment}} -f docker/docker-compose.yml -f docker/docker-compose.${{github.event.inputs.environment}}.override.yml up -d --remove-orphans --no-build
           
-          - name: Deploy to Azure VM
-            uses: appleboy/ssh-action@v1.0.3
-            # the action requires the parameters specified under with:
-            with:
-             host: ${{ secrets.AZURE_VM_IP }}   # asure ip
-             username: ${{ secrets.AZURE_VM_USER }} # aszure username
-             key: ${{ secrets.AZURE_VM_SSH_KEY }}  # your private key. your public key will be given to azure
-             script: |
-               cd /home/${{ secrets.AZURE_VM_USER }}/cart-microservices
-               # pull the image in the azure vm
-               docker compose \
-               -p cart-microservices-${{ github.event.inputs.environment }} \
-               -f docker/docker-compose.yml \
-               -f docker/docker-compose.${{ github.event.inputs.environment }}.override.yml \
-                pull
-               # run the containers in the azure vm
-               docker compose \
-               -p cart-microservices-${{ github.event.inputs.environment }} \
-               -f docker/docker-compose.yml \
-               -f docker/docker-compose.${{ github.event.inputs.environment }}.override.yml \
-               up -d --remove-orphans --no-build
+          # - name: Deploy to Azure VM
+          #   uses: appleboy/ssh-action@v1.0.3
+          #   # the action requires the parameters specified under with:
+          #   with:
+          #    host: ${{ secrets.AZURE_VM_IP }}   # asure ip
+          #    username: ${{ secrets.AZURE_VM_USER }} # aszure username
+          #    key: ${{ secrets.AZURE_VM_SSH_KEY }}  # your private key. your public key will be given to azure
+          #    script: |
+          #      cd /home/${{ secrets.AZURE_VM_USER }}/cart-microservices
+          #      # pull the image in the azure vm
+          #      docker compose \
+          #      -p cart-microservices-${{ github.event.inputs.environment }} \
+          #      -f docker/docker-compose.yml \
+          #      -f docker/docker-compose.${{ github.event.inputs.environment }}.override.yml \
+          #       pull
+          #      # run the containers in the azure vm
+          #      docker compose \
+          #      -p cart-microservices-${{ github.event.inputs.environment }} \
+          #      -f docker/docker-compose.yml \
+          #      -f docker/docker-compose.${{ github.event.inputs.environment }}.override.yml \
+          #      up -d --remove-orphans --no-build
 
             
 
