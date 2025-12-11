@@ -33,6 +33,7 @@ app.use((req:Request,res:Response,next:NextFunction)=>{
 connectToDb();
 
 app.use('/mycart',cartRouter);
+
 app.use((req,res,next)=>{
    next(new CustomError("Path not found",404));
 })

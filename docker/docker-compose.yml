@@ -4,7 +4,7 @@ services:
        - logs-volume:/var/log/cartmicrosvcs
      env_file: 
         - environments/common.env
-     image: dockerenthusiast1992/cart-node-express:${tag}
+     image: ${DOCKERHUB_USER}/${APPNAME}:${tag}
      restart: always
      depends_on:
           - cart-db
@@ -31,18 +31,18 @@ services:
       volumes:
          - mongo-data:/data/db
 
-    # filebeat:
-    #   image: dockerenthusiast1992/cartmicrosvcs-filebeat:${tag}
-    #   restart: always
-    #   build:
-    #     context: ../
-    #     dockerfile: filebeat/Dockerfile
-    #   environment:
-    #      - strict.perms=false
-    #   volumes:
-    #      - logs-volume:/var/log/cartmicrosvcs/:ro
-    #   networks:
-    #      - elk-network
+    filebeat:
+      image: ${DOCKERHUB_USER}/${APPNAME}-filebeat:${tag}
+      restart: always
+      build:
+        context: ../
+        dockerfile: filebeat/Dockerfile
+      environment:
+         - strict.perms=false
+      volumes:
+         - logs-volume:/var/log/cartmicrosvcs/:ro
+      networks:
+         - elk-network
 
 networks:
    mynetwork-dev:
@@ -51,9 +51,9 @@ networks:
    mynetwork-prod:
       name: cart-microsvcs-prod-network
       driver: bridge
-  #  elk-network:
-  #     name: elk-network
-  #     external: true
+   elk-network:
+      name: elk-network
+      external: true
 
 
 

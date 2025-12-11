@@ -1,11 +1,11 @@
 import { CustomError } from "../app";
 import { carts } from "../data/seedData";
-import { connect } from "../dbClient";
+import dbClient from "../dbClient";
 import cartModel from "../models/cartModel";
 
 export async function connectToDb(){
     try{
-    await connect();
+    await dbClient.connect();
     await loadCarts();
     }
     catch(err){
