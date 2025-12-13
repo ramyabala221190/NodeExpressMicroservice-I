@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "local": "set DOTENV_CONFIG_PATH=./local.env&&nodemon",
-    "start": "tsc && node dist/app.js"
+    "start": "tsc && node dist/app.js",
+    "docker-local-dev-build": "cross-env TARGETENV=dev docker compose --env-file docker/environments/local.env  -p cart-node-express-dev -f docker/docker-compose.local.yml -f docker/docker-compose.dev.override.yml  build",
+    "docker-local-dev-up": "cross-env TARGETENV=dev docker compose --env-file docker/environments/local.env -p cart-node-express-dev -f docker/docker-compose.local.yml -f docker/docker-compose.dev.override.yml up -d --remove-orphans --no-build",
+    "docker-local-prod-up": "cross-env TARGETENV=prod docker compose --env-file docker/environments/local.env -p cart-node-express-prod -f docker/docker-compose.local.yml -f docker/docker-compose.prod.override.yml up -d --remove-orphans --no-build"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +16,7 @@
     "@types/express": "^5.0.3",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.3.0",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.2.2",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",

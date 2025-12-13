@@ -4,10 +4,12 @@ services:
        - logs-volume:/var/log/${APPNAME}
      env_file: 
         - environments/common.env
-     image: ${DOCKERHUB_USER}/${APPNAME}:${TAG}
      restart: always
      depends_on:
           - cart-db
+     build:
+        context: ../
+        dockerfile: docker/Dockerfile
     
     cart-node-2:
       extends:
