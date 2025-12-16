@@ -31,9 +31,6 @@ services:
     filebeat:
       image: ${DOCKERHUB_USER}/${APPNAME}-filebeat:${TAG}
       restart: always
-      build:
-        context: ../
-        dockerfile: filebeat/Dockerfile
       environment:
          - strict.perms=false
       volumes:
