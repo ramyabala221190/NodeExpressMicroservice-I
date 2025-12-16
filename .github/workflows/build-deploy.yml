@@ -109,7 +109,8 @@ jobs:
                
                cat <<EOF > /home/${{ secrets.AZURE_VM_USER }}/${{vars.APP_NAME}}/docker/.env 
                DOCKERHUB_USER=${{ vars.DOCKERHUB_USERNAME }} 
-               APPNAME=${{ vars.APP_NAME }} TAG=${{ env.TAG }} 
+               APPNAME=${{ vars.APP_NAME }} 
+               TAG=${{ env.TAG }} 
                TARGETENV=${{ github.event.inputs.environment }} 
                EOF
 
