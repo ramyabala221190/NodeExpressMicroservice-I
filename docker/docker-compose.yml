@@ -2,6 +2,9 @@ services:
     cart-node-1:
      volumes:
        - logs-volume:/var/log/${APPNAME}
+     environment:
+       - stdoutPath=/var/log/${APPNAME}/combined.log
+       - stderrPath=/var/log/${APPNAME}/error.log
      env_file: 
         - environments/common.env
      image: ${DOCKERHUB_USER}/${APPNAME}:${TAG}
