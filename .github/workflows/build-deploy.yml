@@ -59,7 +59,7 @@ jobs:
           # we verify the value of the env variables
             run: |
               # env.var3 will be empty because its set at step level
-              echo "${{env.var1}}" "${{env.var2}}" "${env.TAG}}"
+              echo "${{env.var1}}" "${{env.var2}}" "${{env.TAG}}"
               echo "${{github.event.inputs.environment}}"
                         
 
