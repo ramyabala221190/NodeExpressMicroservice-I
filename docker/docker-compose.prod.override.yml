@@ -4,10 +4,10 @@ services:
         - environments/${TARGETENV}.env
       expose: 
         - 9095
-      volumes:
-         - C:/Users/User/certificates/self-signed-custom-ca/rootCA.crt:/var/lib/certs/rootCA.crt
-         - C:/Users/User/certificates/self-signed-custom-ca/cart.key:/var/lib/certs/cart.key
-         - C:/Users/User/certificates/self-signed-custom-ca/cart.crt:/var/lib/certs/cart.crt
+      # volumes:
+      #    - C:/Users/User/certificates/self-signed-custom-ca/rootCA.crt:/var/lib/certs/rootCA.crt
+      #    - C:/Users/User/certificates/self-signed-custom-ca/cart.key:/var/lib/certs/cart.key
+      #    - C:/Users/User/certificates/self-signed-custom-ca/cart.crt:/var/lib/certs/cart.crt
       networks:
        - mynetwork-prod
     
