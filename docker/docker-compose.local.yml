@@ -1,5 +1,5 @@
 services:
-    cart-node-1:
+    cart-node:
      volumes:
        - logs-volume:/var/log/${APPNAME}
      env_file: 
@@ -10,18 +10,6 @@ services:
      build:
         context: ../
         dockerfile: docker/Dockerfile
-    
-    cart-node-2:
-      extends:
-        service: cart-node-1
-      env_file: 
-        - environments/common.env
- 
-    cart-node-3:
-      extends:
-        service: cart-node-1
-      env_file:
-        - environments/common.env
     
 
     cart-db:

@@ -1,23 +1,12 @@
 services:    
-    cart-node-1:
+    cart-node:
       env_file: 
         - environments/${TARGETENV}.env
       expose: 
         - 9091
       networks:
        - mynetwork-dev
-  
-    cart-node-2:
-      extends:
-        service: cart-node-1
-      env_file: 
-        - environments/${TARGETENV}.env
- 
-    cart-node-3:
-      extends:
-        service: cart-node-1
-      env_file: 
-        - environments/${TARGETENV}.env
+
               
     cart-db:
       ports:

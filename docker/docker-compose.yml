@@ -1,5 +1,5 @@
 services:
-    cart-node-1:
+    cart-node:
      volumes:
        - logs-volume:/var/log/${APPNAME}
      environment:
@@ -12,18 +12,7 @@ services:
      depends_on:
           - cart-db
     
-    cart-node-2:
-      extends:
-        service: cart-node-1
-      env_file: 
-        - environments/common.env
- 
-    cart-node-3:
-      extends:
-        service: cart-node-1
-      env_file:
-        - environments/common.env
-    
+
 
     cart-db:
       image: mongo:latest
