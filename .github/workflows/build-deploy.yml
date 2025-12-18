@@ -124,11 +124,19 @@ jobs:
                TARGETENV=${{ github.event.inputs.environment }}
                EOF
 
+                docker compose \
+               -p ${{vars.APP_NAME}}-${{ github.event.inputs.environment }} \
+               -f docker/docker-compose.yml \
+               -f docker/docker-compose.${{ github.event.inputs.environment }}.override.yml \
+                down || true
+
                docker compose \
                -p ${{vars.APP_NAME}}-${{ github.event.inputs.environment }} \
                -f docker/docker-compose.yml \
                -f docker/docker-compose.${{ github.event.inputs.environment }}.override.yml \
                 pull
+
+
                docker compose \
                -p ${{vars.APP_NAME}}-${{ github.event.inputs.environment }} \
                -f docker/docker-compose.yml \
