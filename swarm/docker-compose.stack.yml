@@ -7,10 +7,10 @@ services:
         placement:
           constraints: [node.labels.role == worker1]
        volumes:
-       - logs-volume:/var/log/cartmicrosvcs
+       - logs-volume:/var/log/${APPNAME}
        env_file: 
-        - ../environments/common.env
-       image: dockerenthusiast1992/cart-node-express
+        - ../docker/environments/common.env
+       image: ${DOCKERHUB_USER}/${APPNAME}:${TAG}
     
 
     cart-db:
@@ -23,17 +23,18 @@ services:
       volumes:
          - mongo-data:/data/db
 
-    filebeat:
-      image: dockerenthusiast1992/cartmicrosvcs-filebeat
-      deploy:
-        restart_policy:
-          condition: on-failure
-        placement:
-          constraints: [node.labels.role == worker1]
-      environment:
-         - strict.perms=false
-      volumes:
-         - logs-volume:/var/log/cartmicrosvcs/:ro
+    # filebeat:
+    #   image: ${DOCKERHUB_USER}/${APPNAME}-filebeat:${TAG}
+    #   deploy:
+    #     restart_policy:
+    #       condition: on-failure
+    #     placement:
+    #       constraints: [node.labels.role == worker1]
+    #   environment:
+    #      - strict.perms=false
+    #      - APPNAME=${APPNAME}
+    #   volumes:
+    #      - logs-volume:/var/log/${APPNAME}/:ro
 
 networks:
    shared-swarm-net-dev:

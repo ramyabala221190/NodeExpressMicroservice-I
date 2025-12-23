@@ -448,7 +448,7 @@ We use the same image to bring the dev and prod containers up. Below are the com
 
  "docker-local-dev-build": "cross-env TARGETENV=dev docker compose --env-file docker/environments/local.env  -p cart-node-express-dev -f docker/docker-compose.local.yml -f docker/docker-compose.dev.override.yml  build",
  "docker-local-dev-up": "cross-env TARGETENV=dev docker compose --env-file docker/environments/local.env -p cart-node-express-dev -f docker/docker-compose.local.yml -f docker/docker-compose.dev.override.yml up -d --remove-orphans --no-build --scale cart-node=3",
- "docker-local-prod-up": "cross-env TARGETENV=prod docker compose --env-file docker/environments/local.env -p cart-node-express-prod -f docker/docker-compose.local.yml -f docker/docker-compose.prod.override.yml up -d --remove-orphans --no-build"
+ "docker-local-prod-up": "cross-env TARGETENV=prod docker compose --env-file docker/environments/local.env -p cart-node-express-prod -f docker/docker-compose.local.yml -f docker/docker-compose.prod.override.yml up -d --remove-orphans --no-build --scale cart-node=3"
 
 ```
 
