@@ -15,7 +15,7 @@ services:
       networks:
        - shared-swarm-net-prod
     
-    # filebeat:
-    #   networks:
-    #      - shared-swarm-net-prod
+    filebeat:
+      networks:
+         - shared-swarm-net-prod
       
