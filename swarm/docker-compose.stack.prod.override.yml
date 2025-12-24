@@ -1,5 +1,5 @@
 services:    
-    cart-node-1:
+    cart-node:
       env_file: 
         - ../docker/environments/prod.env
       # volumes:
