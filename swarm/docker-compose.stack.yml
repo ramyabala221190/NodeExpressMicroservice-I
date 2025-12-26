@@ -7,9 +7,12 @@ services:
         placement:
           constraints: [node.labels.role == worker1]
        volumes:
-       - logs-volume:/var/log/${APPNAME}
+         - logs-volume:/var/log/${APPNAME}
        env_file: 
-        - ../docker/environments/common.env
+          - ../docker/environments/common.env
+       environment:
+         - stdoutPath=/var/log/${APPNAME}/combined.log
+         - stderrPath=/var/log/${APPNAME}/error.log
        image: ${DOCKERHUB_USER}/${APPNAME}:${TAG}
     
 
