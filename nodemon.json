@@ -11,8 +11,7 @@
       "API_GATEWAY_PORT":3600,
       "PRODUCT_MICROSERVICE_MAPPING":"myproduct",
       "LOG_LEVEL":"debug",
-       "APP_ENV":"dev",
-      "protocol":"http"
-    },
+       "APP_ENV":"dev"
+          },
     "exec": "ts-node -r ./src/app.ts"
   }

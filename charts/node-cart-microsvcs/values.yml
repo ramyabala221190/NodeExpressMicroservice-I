@@ -1,0 +1,35 @@
+global:
+  environment: ""
+  dbName: myCartApp
+  productMicrosvcsMapping : myproduct
+  logLevel: debug
+
+image:
+   express: ""
+   mongo: mongo:latest
+
+
+services:
+  express:
+    name: cart-express-app
+    type: ClusterIP
+    port: 8081
+  mongo:
+    name: cart-mongo-db
+    type: ClusterIP
+    port: 27017
+  gateway:
+    name: gateway-express-app
+    port: 8081
+
+
+app:
+ express:
+   port: 9091
+ mongo:
+   port: 27017
+
+
+config:
+  name: cart-app-config
+

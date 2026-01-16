@@ -22,7 +22,7 @@ async getAllCartsService(){
  async messageToProductMicroservice(){
   try{
     let products= await axios.get(
-      `${process.env.protocol}://${process.env.API_GATEWAY}:${process.env.API_GATEWAY_PORT}/${process.env.PRODUCT_MICROSERVICE_MAPPING}/products`);
+      `http://${process.env.API_GATEWAY}:${process.env.API_GATEWAY_PORT}/${process.env.PRODUCT_MICROSERVICE_MAPPING}/products`);
     return products.data; 
   }
      catch(err){
